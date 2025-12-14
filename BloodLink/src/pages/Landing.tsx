@@ -1,31 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Users, MapPin, Calendar, Phone, ArrowRight, User } from 'lucide-react';
+import { Droplet, Users, MapPin, Calendar, Phone, ArrowRight, User } from 'lucide-react';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
 
 const Landing: React.FC = () => {
   const stats = [
     { icon: Users, label: 'Active Donors', value: '2,500+' },
-    { icon: Heart, label: 'Lives Saved', value: '10,000+' },
+    { icon: Droplet, label: 'Lives Saved', value: '10,000+' },
     { icon: MapPin, label: 'Rural Districts Covered', value: '25+' },
     { icon: Calendar, label: 'Village Camps', value: '150+' }
   ];
 
   return (
     <div className="min-h-screen">
-      {/* Red Cross Collaboration Badge */}
-      <div className="bg-white border-b-2 border-red-200 py-3">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center space-x-2 text-gray-700">
-            <Heart className="h-5 w-5 text-red-600" fill="currentColor" />
-            <span className="text-sm md:text-base font-medium">
-              In Collaboration with <span className="text-red-600 font-bold">Nepal Red Cross Society</span>
-            </span>
-          </div>
-        </div>
-      </div>
-      
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-red-600 to-red-800 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,14 +28,14 @@ const Landing: React.FC = () => {
                 Bringing hope to remote areas where every drop counts.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/register">
+                <Link to="/active-requests">
                   <Button size="lg" className="w-full sm:w-auto">
-                    <Heart className="h-6 w-6 mr-2" />
+                    <Droplet className="h-6 w-6 mr-2" />
                     Donate Now
                   </Button>
                 </Link>
                 <Link to="/request">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto bg-white/10 border-white text-white hover:bg-white hover:text-red-600">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto bg-white/10 border-white text-white ">
                     Request Blood
                     <ArrowRight className="h-6 w-6 ml-2" />
                   </Button>
@@ -58,11 +46,16 @@ const Landing: React.FC = () => {
             <div className="hidden lg:block">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border-2 border-white/20">
                 <div className="text-center">
-                  <Heart className="h-24 w-24 text-red-300 mx-auto mb-4" fill="currentColor" />
+                  <Droplet className="h-24 w-24 text-red-300 mx-auto mb-4" fill="currentColor" />
                   <h3 className="text-2xl font-bold mb-2">Serving Rural Communities</h3>
                   <p className="text-red-100">
                     Reaching remote villages and ensuring no one is left behind in times of need
                   </p>
+                  <div className="mt-4 pt-4 border-t border-white/20">
+                    <p className="text-sm text-red-100">
+                      In Collaboration with <span className="font-bold text-white">Nepal Red Cross Society</span>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -92,7 +85,7 @@ const Landing: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-3 bg-red-600 text-white px-6 py-3 rounded-full mb-6">
-              <Heart className="h-6 w-6" fill="currentColor" />
+              <Droplet className="h-6 w-6" fill="currentColor" />
               <span className="font-bold text-lg">Red Cross Rural Campaign</span>
             </div>
             <h2 className="text-4xl font-bold text-gray-900 mb-6">Know Your Blood, Save Lives</h2>
@@ -115,7 +108,7 @@ const Landing: React.FC = () => {
 
             <Card className="text-center border-t-4 border-red-600 bg-white">
               <div className="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="h-8 w-8 text-red-600" />
+                <Droplet className="h-8 w-8 text-red-600" />
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">2. Get Tested</h3>
               <p className="text-gray-600 text-sm">
@@ -157,7 +150,7 @@ const Landing: React.FC = () => {
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v3h-3v-3zm0 5h3v3h-3v-3zm-5-5h3v3h-3v-3z"/>
                   </svg>
-                  <span className="font-semibold">Quick QR Code Registration Available</span>
+                  <span className="font-semibold">Quick QR Code Sign In Available</span>
                 </div>
               </div>
               <div className="flex-shrink-0">
@@ -208,7 +201,7 @@ const Landing: React.FC = () => {
 
             <Card className="text-center border-l-4 border-red-600">
               <div className="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="h-8 w-8 text-red-600" />
+                <Droplet className="h-8 w-8 text-red-600" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">3. Save Lives</h3>
               <p className="text-gray-600">
@@ -254,7 +247,7 @@ const Landing: React.FC = () => {
           </p>
           <Link to="/register">
             <Button size="lg" className="text-xl px-12 py-4">
-              <Heart className="h-6 w-6 mr-2" />
+              <Droplet className="h-6 w-6 mr-2" />
               Start Saving Lives Today
             </Button>
           </Link>

@@ -47,7 +47,7 @@ const DonorRegistration: React.FC = () => {
     };
     
     localStorage.setItem('donorProfile', JSON.stringify(donorData));
-    console.log('✅ Donor data saved to profile:', donorData);
+    console.log('Donor data saved to profile:', donorData);
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -64,8 +64,8 @@ const DonorRegistration: React.FC = () => {
   };
 
   const onScanSuccess = async (decodedText: string) => {
-    console.log('\n🎯 ========================== QR CODE SCANNED ==========================');
-    console.log('📱 QR Code Data:', decodedText);
+    console.log('\n ========================== QR CODE SCANNED ==========================');
+    console.log('QR Code Data:', decodedText);
     
     let scannedData;
     
@@ -73,14 +73,13 @@ const DonorRegistration: React.FC = () => {
       // Parse QR code data (assuming JSON format from Red Cross cards)
       const donorData = JSON.parse(decodedText);
       
-      console.log('✅ Donor Information Retrieved:');
+      console.log('Donor Information Retrieved:');
       console.log(`   Name: ${donorData.fullName || donorData.name}`);
       console.log(`   Blood Group: ${donorData.bloodGroup}`);
       console.log(`   Phone: ${donorData.phone}`);
       console.log(`   City: ${donorData.city || donorData.address}`);
       console.log('======================================================================\n');
       
-      // Auto-fill form with scanned data
       scannedData = {
         fullName: donorData.fullName || donorData.name || '',
         email: donorData.email || '',
@@ -95,8 +94,8 @@ const DonorRegistration: React.FC = () => {
       };
     } catch (error) {
       // If not JSON, treat as simple donor ID and use demo data
-      console.log('ℹ️  Using demo data for QR code:', decodedText);
-      console.log('✅ Donor Information Retrieved:');
+      console.log('Using demo data for QR code:', decodedText);
+      console.log('Donor Information Retrieved:');
       console.log('   Name: Ram Prasad Sharma');
       console.log('   Blood Group: O+');
       console.log('   Phone: +977 9841234567');
@@ -133,7 +132,7 @@ const DonorRegistration: React.FC = () => {
     }, 1500);
 
     // Auto-submit the form after QR scan
-    console.log('🚀 Auto-submitting registration from QR scan...');
+    console.log('Auto-submitting registration from QR scan...');
     setIsSubmitting(true);
     
     // Store donor data in localStorage
@@ -152,7 +151,7 @@ const DonorRegistration: React.FC = () => {
     };
     
     localStorage.setItem('donorProfile', JSON.stringify(donorData));
-    console.log('✅ Donor data saved to profile:', donorData);
+    console.log('Donor data saved to profile:', donorData);
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -200,7 +199,6 @@ const DonorRegistration: React.FC = () => {
   };
 
   useEffect(() => {
-    // Cleanup on unmount
     return () => {
       if (qrScannerRef.current) {
         qrScannerRef.current.clear();
@@ -222,7 +220,7 @@ const DonorRegistration: React.FC = () => {
             </p>
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
               <p className="text-red-800 font-medium">
-                🎯 You'll receive notifications when your blood type is needed in your area.
+                You'll receive notifications when your blood type is needed in your area.
               </p>
             </div>
             <Button onClick={() => setSubmitted(false)}>
@@ -283,7 +281,7 @@ const DonorRegistration: React.FC = () => {
                       Position the QR code from your Red Cross donor card within the frame
                     </p>
                     <p className="text-sm text-gray-500">
-                      💡 Tip: Hold steady and ensure good lighting for best results
+                      Tip: Hold steady and ensure good lighting for best results
                     </p>
                   </div>
                 </>
