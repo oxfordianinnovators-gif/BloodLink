@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Phone, Mail, MapPin } from 'lucide-react';
+import { Droplet, Phone, Mail, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
               <div className="bg-red-600 p-2 rounded-full">
-                <Heart className="h-6 w-6 text-white" fill="currentColor" />
+                <Droplet className="h-6 w-6 text-white" fill="currentColor" />
               </div>
               <span className="text-2xl font-bold text-red-500">BloodLink</span>
             </div>

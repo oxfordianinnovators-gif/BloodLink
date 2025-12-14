@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, Menu, X } from 'lucide-react';
+import { Droplet, Menu, X, User } from 'lucide-react';
 import { useState } from 'react';
 
 const Header: React.FC = () => {
@@ -9,10 +9,10 @@ const Header: React.FC = () => {
 
   const navigation = [
     { name: 'Home', href: '/' },
-    { name: 'Donate', href: '/register' },
     { name: 'Active Requests', href: '/active-requests' },
     { name: 'Find Donors', href: '/search' },
-    { name: 'Blood Banks', href: '/banks' }
+    { name: 'Blood Banks', href: '/banks' },
+    { name: 'Profile', href: '/profile' }
   ];
 
   const isActive = (href: string) => location.pathname === href;
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
             <div className="bg-red-600 p-2 rounded-full">
-              <Heart className="h-6 w-6 text-white" fill="currentColor" />
+              <Droplet className="h-6 w-6 text-white" fill="currentColor" />
             </div>
             <span className="text-2xl font-bold text-red-600">BloodLink</span>
           </Link>
@@ -84,6 +84,7 @@ const Header: React.FC = () => {
                 </Link>
               ))}
               <Link
+
                 to="/request"
                 onClick={() => setIsMenuOpen(false)}
                 className="bg-red-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-red-700 transition-colors mx-4 text-center"

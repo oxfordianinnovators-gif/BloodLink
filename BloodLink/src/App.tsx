@@ -9,6 +9,7 @@ import RequestBlood from './pages/RequestBlood';
 import DonorSearch from './pages/DonorSearch';
 import BloodBanks from './pages/BloodBanks';
 import ActiveRequests from './pages/ActiveRequests';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/active-requests" element={<ActiveRequests />} />
             <Route path="/search" element={<DonorSearch />} />
             <Route path="/banks" element={<BloodBanks />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </main>
         <Footer />
