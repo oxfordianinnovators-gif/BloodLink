@@ -102,36 +102,5 @@ export const mockBloodBanks: BloodBank[] = [
     hours: '24/7'
   }
 ];
-
-export const mockEvents: Event[] = [
-  {
-    id: '1',
-    title: 'Rural Community Blood Drive',
-    date: '2025-01-25',
-    time: '10:00 AM - 4:00 PM',
-    location: 'Community Hall, Jumla',
-    organizer: 'Nepal Red Cross Society',
-    description: 'Join us for our monthly community blood drive in Jumla. All blood types needed!'
-  },
-  {
-    id: '2',
-    title: 'Emergency Blood Collection Camp',
-    date: '2025-01-28',
-    time: '8:00 AM - 6:00 PM',
-    location: 'District Hospital, Mugu',
-    organizer: 'Red Cross - Mugu Branch',
-    description: 'Urgent collection drive for critical patients. O- and AB+ donors especially needed.'
-  },
-  {
-    id: '3',
-    title: 'Village Health Fair & Blood Donation',
-    date: '2025-02-02',
-    time: '12:00 PM - 5:00 PM',
-    location: 'Community Center, Dolpa',
-    organizer: 'Nepal Red Cross Society',
-    description: 'Health awareness and blood donation event for rural communities.'
-  }
-];
-
 export const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 export const cities = ['Jumla', 'Mugu', 'Dolpa', 'Humla', 'Bajura'];
