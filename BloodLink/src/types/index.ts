@@ -5,6 +5,8 @@ export interface Donor {
   phone: string;
   email: string;
   city: string;
+  latitude?: number;
+  longitude?: number;
   availability: boolean;
   lastDonation?: string;
 }
@@ -16,6 +18,8 @@ export interface BloodRequest {
   urgency: 'low' | 'medium' | 'high' | 'critical';
   hospital: string;
   city: string;
+  latitude?: number;
+  longitude?: number;
   contactPhone: string;
   unitsNeeded: number;
   requestDate: string;
@@ -26,6 +30,8 @@ export interface BloodBank {
   name: string;
   address: string;
   city: string;
+  latitude?: number;
+  longitude?: number;
   phone: string;
   emergencyPhone: string;
   bloodGroups: string[];

@@ -15,12 +15,17 @@ const RequestBlood: React.FC = () => {
     unitsNeeded: '',
     hospital: '',
     city: '',
+    latitude: null as number | null,
+    longitude: null as number | null,
     additionalInfo: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [notificationResults, setNotificationResults] = useState<any>(null);
+  const [searchRadius, setSearchRadius] = useState(50);
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [locationError, setLocationError] = useState('');
 
   const urgencyLevels = [
     { value: 'low', label: 'Low - Within 7 days', color: 'text-green-600' },
@@ -29,6 +34,35 @@ const RequestBlood: React.FC = () => {
     { value: 'critical', label: 'Critical - Immediate', color: 'text-red-600' }
   ];
 
+  const captureLocation = () => {
+    setLocationLoading(true);
+    setLocationError('');
+    
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation not supported by your browser');
+      setLocationLoading(false);
+      return;
+    }
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setFormData({
+          ...formData,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
+        setLocationLoading(false);
+        console.log('📍 Request location captured:', position.coords.latitude, position.coords.longitude);
+      },
+      (error) => {
+        setLocationError('Unable to retrieve location. Please enable location services.');
+        setLocationLoading(false);
+        console.error('Geolocation error:', error);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -36,16 +70,64 @@ const RequestBlood: React.FC = () => {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    // Send emergency notifications and log to console
-    const results = sendEmergencyNotifications({
-      patientName: formData.patientName,
-      bloodGroup: formData.bloodGroup,
-      city: formData.city,
-      urgency: formData.urgency,
-      contactPhone: formData.contactPhone,
-      hospital: formData.hospital,
-      unitsNeeded: formData.unitsNeeded
-    });
+    let results;
+    let effectiveRadius = searchRadius;
+    const radiusOptions = [10, 25, 50, 100, 200];
+    
+    // If location is available, try progressive radius expansion
+    if (formData.latitude && formData.longitude) {
+      // Get the index of current search radius
+      let radiusIndex = radiusOptions.indexOf(searchRadius);
+      
+      // Try with initial radius
+      results = sendEmergencyNotifications({
+        patientName: formData.patientName,
+        bloodGroup: formData.bloodGroup,
+        city: formData.city,
+        latitude: formData.latitude || undefined,
+        longitude: formData.longitude || undefined,
+        urgency: formData.urgency,
+        contactPhone: formData.contactPhone,
+        hospital: formData.hospital,
+        unitsNeeded: formData.unitsNeeded
+      }, effectiveRadius);
+      
+      // If no donors found, progressively expand radius
+      while (results.donorsNotified === 0 && radiusIndex < radiusOptions.length - 1) {
+        radiusIndex++;
+        effectiveRadius = radiusOptions[radiusIndex];
+        
+        console.log(`\n No donors found within ${radiusOptions[radiusIndex - 1]} km. Expanding search to ${effectiveRadius} km...`);
+        
+        results = sendEmergencyNotifications({
+          patientName: formData.patientName,
+          bloodGroup: formData.bloodGroup,
+          city: formData.city,
+          latitude: formData.latitude || undefined,
+          longitude: formData.longitude || undefined,
+          urgency: formData.urgency,
+          contactPhone: formData.contactPhone,
+          hospital: formData.hospital,
+          unitsNeeded: formData.unitsNeeded
+        }, effectiveRadius);
+      }
+      
+      // Update search radius to show what was actually used
+      setSearchRadius(effectiveRadius);
+    } else {
+      // No location - use city-based search
+      results = sendEmergencyNotifications({
+        patientName: formData.patientName,
+        bloodGroup: formData.bloodGroup,
+        city: formData.city,
+        latitude: formData.latitude || undefined,
+        longitude: formData.longitude || undefined,
+        urgency: formData.urgency,
+        contactPhone: formData.contactPhone,
+        hospital: formData.hospital,
+        unitsNeeded: formData.unitsNeeded
+      }, effectiveRadius);
+    }
     
     setNotificationResults(results);
     setIsSubmitting(false);
@@ -90,25 +172,33 @@ const RequestBlood: React.FC = () => {
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
                 <h3 className="font-bold text-blue-900 mb-3 flex items-center">
                   <User className="h-5 w-5 mr-2" />
-                  Donors Contacted in {formData.city}
+                  Donors Contacted {formData.latitude ? `within ${searchRadius} km` : `in ${formData.city}`}
                 </h3>
                 <div className="text-blue-800">
                   <p className="font-semibold text-2xl mb-2">{notificationResults?.donorsNotified || 0} Compatible Donors</p>
-                  <p className="text-sm">! SMS sent to all donors !</p>
-                  <p className="text-sm">! Email notifications delivered !</p>
-                  <p className="text-sm">! Auto-calls initiated !</p>
+                  {notificationResults?.compatibleDonors?.[0]?.distance !== null && notificationResults?.compatibleDonors?.[0]?.distance !== undefined && (
+                    <p className="text-sm font-medium mb-2">
+                      Nearest donor: {notificationResults.compatibleDonors[0].distance.toFixed(1)} km away
+                    </p>
+                  )}
+                  <p className="text-sm">SMS sent to all donors !</p>
+                  <p className="text-sm">Email notifications delivered !</p>
+                  <p className="text-sm">Auto-calls initiated !</p>
+                  {formData.latitude && (
+                    <p className="text-xs mt-2 text-blue-600">Using GPS-based distance matching</p>
+                  )}
                 </div>
               </div>
 
               <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
                 <h3 className="font-bold text-purple-900 mb-3 flex items-center">
                   <MapPin className="h-5 w-5 mr-2" />
-                  Blood Banks Contacted in {formData.city}
+                  Blood Banks Contacted {formData.latitude ? `within ${searchRadius} km` : `in ${formData.city}`}
                 </h3>
                 <div className="text-purple-800">
                   <p className="font-semibold text-2xl mb-2">{notificationResults?.bloodBanksNotified || 0} Blood Banks</p>
-                  <p className="text-sm">! Emergency lines contacted</p>
-                  <p className="text-sm">! Inventory check requested</p>
+                  <p className="text-sm">Emergency lines contacted</p>
+                  <p className="text-sm">Inventory check requested</p>
                 </div>
               </div>
 
@@ -168,7 +258,7 @@ const RequestBlood: React.FC = () => {
           <div className="flex items-center">
             <AlertTriangle className="h-6 w-6 text-red-600 mr-3" />
             <p className="text-red-800 font-medium">
-              For life-threatening emergencies, call 911 first, then use this form to find additional blood sources.
+              For life-threatening emergencies, call 102 first, then use this form to find additional blood sources.
             </p>
           </div>
         </div>
@@ -343,6 +433,55 @@ const RequestBlood: React.FC = () => {
                     ))}
                   </select>
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    GPS Location (Recommended for Better Matching)
+                  </label>
+                  <Button 
+                    type="button"
+                    variant={formData.latitude ? "primary" : "outline"}
+                    onClick={captureLocation}
+                    className="w-full"
+                    disabled={locationLoading}
+                  >
+                    <MapPin className="h-5 w-5 mr-2" />
+                    {locationLoading ? 'Getting Location...' : formData.latitude ? 'Location Captured' : 'Capture Hospital Location'}
+                  </Button>
+                  {formData.latitude && formData.longitude && (
+                    <p className="text-sm text-green-600 mt-2">
+                      Location: {formData.latitude.toFixed(4)}, {formData.longitude.toFixed(4)}
+                    </p>
+                  )}
+                  {locationError && (
+                    <p className="text-sm text-red-600 mt-2">{locationError}</p>
+                  )}
+                  {!formData.latitude && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enable for distance-based donor search (finds donors within radius)
+                    </p>
+                  )}
+                </div>
+
+                {formData.latitude && formData.longitude && (
+                  <div>
+                    <label htmlFor="searchRadius" className="block text-sm font-medium text-gray-700 mb-2">
+                      Search Radius
+                    </label>
+                    <select
+                      id="searchRadius"
+                      value={searchRadius}
+                      onChange={(e) => setSearchRadius(Number(e.target.value))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                    >
+                      <option value={10}>Within 10 km (Nearby only)</option>
+                      <option value={25}>Within 25 km</option>
+                      <option value={50}>Within 50 km (Recommended)</option>
+                      <option value={100}>Within 100 km</option>
+                      <option value={200}>Within 200 km (Wide search)</option>
+                    </select>
+                  </div>
+                )}
               </div>
             </div>
 

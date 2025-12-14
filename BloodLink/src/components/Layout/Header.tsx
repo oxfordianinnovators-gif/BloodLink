@@ -26,7 +26,7 @@ const Header: React.FC = () => {
             <div className="bg-red-600 p-2 rounded-full">
               <Droplet className="h-6 w-6 text-white" fill="currentColor" />
             </div>
-            <span className="text-2xl font-bold text-red-600">BloodLink</span>
+            <span className="text-4xl font-extrabold text-red-600">BloodLink</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -35,7 +35,7 @@ const Header: React.FC = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                className={`px-3 py-2 rounded-md text-lg font-bold transition-all duration-200 ${
                   isActive(item.href)
                     ? 'bg-red-600 text-white'
                     : 'text-gray-700 hover:bg-red-50 hover:text-red-600'
@@ -50,7 +50,7 @@ const Header: React.FC = () => {
           <div className="hidden lg:flex items-center space-x-4">
             <Link
               to="/request"
-              className="bg-red-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-red-700 transition-all duration-200 transform hover:scale-105"
+              className="bg-red-600 text-white px-6 py-2 rounded-full text-lg font-bold hover:bg-red-700 transition-all duration-200 transform hover:scale-105"
             >
               Emergency Request
             </Link>
@@ -74,7 +74,7 @@ const Header: React.FC = () => {
                   key={item.name}
                   to={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  className={`px-4 py-2 rounded-md text-lg font-bold transition-all duration-200 ${
                     isActive(item.href)
                       ? 'bg-red-600 text-white'
                       : 'text-gray-700 hover:bg-red-50 hover:text-red-600'
@@ -87,7 +87,7 @@ const Header: React.FC = () => {
 
                 to="/request"
                 onClick={() => setIsMenuOpen(false)}
-                className="bg-red-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-red-700 transition-colors mx-4 text-center"
+                className="bg-red-600 text-white px-4 py-2 rounded-md text-lg font-bold hover:bg-red-700 transition-colors mx-4 text-center"
               >
                 Emergency Request
               </Link>

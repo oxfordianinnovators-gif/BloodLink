@@ -12,6 +12,8 @@ const DonorRegistration: React.FC = () => {
     phone: '',
     bloodGroup: '',
     city: '',
+    latitude: null as number | null,
+    longitude: null as number | null,
     dateOfBirth: '',
     weight: '',
     lastDonation: '',
@@ -23,9 +25,45 @@ const DonorRegistration: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [showQRScanner, setShowQRScanner] = useState(false);
   const [registrationMethod, setRegistrationMethod] = useState<'manual' | 'qr'>('manual');
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [locationError, setLocationError] = useState('');
   const [cameraError, setCameraError] = useState('');
   const [scanSuccess, setScanSuccess] = useState(false);
   const qrScannerRef = useRef<Html5QrcodeScanner | null>(null);
+  const formRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToForm = () => {
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const captureLocation = () => {
+    setLocationLoading(true);
+    setLocationError('');
+    
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation not supported by your browser');
+      setLocationLoading(false);
+      return;
+    }
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setFormData({
+          ...formData,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
+        setLocationLoading(false);
+        console.log('Location captured:', position.coords.latitude, position.coords.longitude);
+      },
+      (error) => {
+        setLocationError('Unable to retrieve location. Please enable location services.');
+        setLocationLoading(false);
+        console.error('Geolocation error:', error);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,6 +76,8 @@ const DonorRegistration: React.FC = () => {
       phone: formData.phone,
       email: formData.email,
       address: formData.city,
+      latitude: formData.latitude,
+      longitude: formData.longitude,
       dateOfBirth: formData.dateOfBirth,
       weight: formData.weight,
       lastDonation: formData.lastDonation || '2024-01-15',
@@ -48,6 +88,9 @@ const DonorRegistration: React.FC = () => {
     
     localStorage.setItem('donorProfile', JSON.stringify(donorData));
     console.log('Donor data saved to profile:', donorData);
+    if (formData.latitude && formData.longitude) {
+      console.log(`📍 Donor location: ${formData.latitude.toFixed(4)}, ${formData.longitude.toFixed(4)}`);
+    }
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -86,6 +129,8 @@ const DonorRegistration: React.FC = () => {
         phone: donorData.phone || '',
         bloodGroup: donorData.bloodGroup || '',
         city: donorData.city || donorData.address || '',
+        latitude: donorData.latitude || null,
+        longitude: donorData.longitude || null,
         dateOfBirth: donorData.dateOfBirth || donorData.dob || '',
         weight: donorData.weight || '',
         lastDonation: '',
@@ -108,6 +153,8 @@ const DonorRegistration: React.FC = () => {
         phone: '+977 9841234567',
         bloodGroup: 'O+',
         city: 'Jumla',
+        latitude: 29.2747,
+        longitude: 82.1838,
         dateOfBirth: '1995-05-15',
         weight: '65',
         lastDonation: '',
@@ -142,6 +189,8 @@ const DonorRegistration: React.FC = () => {
       phone: scannedData.phone,
       email: scannedData.email,
       address: scannedData.city,
+      latitude: scannedData.latitude || null,
+      longitude: scannedData.longitude || null,
       dateOfBirth: scannedData.dateOfBirth,
       weight: scannedData.weight,
       lastDonation: scannedData.lastDonation || '2024-01-15',
@@ -315,11 +364,7 @@ const DonorRegistration: React.FC = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* QR Code Option */}
-              <div className={`border-2 rounded-lg p-6 cursor-pointer transition-all ${
-                registrationMethod === 'qr' 
-                  ? 'border-red-600 bg-red-50' 
-                  : 'border-gray-300 hover:border-red-400 bg-white'
-              }`}>
+              <div className="border-2 border-red-600 bg-red-50 rounded-lg p-6 cursor-pointer transition-all">
                 <div className="text-center">
                   <div className="bg-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <QrCode className="h-8 w-8 text-white" />
@@ -333,7 +378,7 @@ const DonorRegistration: React.FC = () => {
                     onClick={startQRScanner}
                     loading={showQRScanner}
                     className="w-full"
-                    variant={registrationMethod === 'qr' ? 'primary' : 'outline'}
+                    variant="outline"
                   >
                     <Camera className="h-5 w-5 mr-2" />
                     {showQRScanner ? 'Scanning...' : 'Scan Your Card'}
@@ -351,11 +396,7 @@ const DonorRegistration: React.FC = () => {
               </div>
 
               {/* Manual Registration Option */}
-              <div className={`border-2 rounded-lg p-6 cursor-pointer transition-all ${
-                registrationMethod === 'manual' 
-                  ? 'border-red-600 bg-red-50' 
-                  : 'border-gray-300 hover:border-red-400 bg-white'
-              }`}
+              <div className="border-2 border-red-600 bg-red-50 rounded-lg p-6 cursor-pointer transition-all"
               onClick={() => setRegistrationMethod('manual')}>
                 <div className="text-center">
                   <div className="bg-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -363,13 +404,16 @@ const DonorRegistration: React.FC = () => {
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">Manual Registration</h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    Fill out the form below with your information
+                    Fill out the form below with your genuine information
                   </p>
                   <Button 
                     type="button"
-                    variant={registrationMethod === 'manual' ? 'primary' : 'outline'}
+                    variant="outline"
                     className="w-full"
-                    onClick={() => setRegistrationMethod('manual')}
+                    onClick={() => {
+                      setRegistrationMethod('manual');
+                      setTimeout(scrollToForm, 100);
+                    }}
                   >
                     <User className="h-5 w-5 mr-2" />
                     Register Manually
@@ -396,8 +440,9 @@ const DonorRegistration: React.FC = () => {
         </div>
 
         {/* Registration Form */}
-        <Card>
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div ref={formRef}>
+          <Card>
+            <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Personal Information */}
               <div className="space-y-6">
@@ -559,21 +604,51 @@ const DonorRegistration: React.FC = () => {
                   />
                   <p className="text-xs text-gray-500 mt-1">Leave blank if first-time donor</p>
                 </div>
+              </div>
+            </div>
 
-                <div>
-                  <label htmlFor="medicalConditions" className="block text-sm font-medium text-gray-700 mb-2">
-                    Medical Conditions
-                  </label>
-                  <textarea
-                    id="medicalConditions"
-                    name="medicalConditions"
-                    rows={3}
-                    value={formData.medicalConditions}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
-                    placeholder="List any medical conditions or medications (optional)"
-                  />
-                </div>
+            {/* Medical Conditions and GPS Location - Side by Side */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="medicalConditions" className="block text-sm font-medium text-gray-700 mb-2">
+                  Medical Conditions
+                </label>
+                <textarea
+                  id="medicalConditions"
+                  name="medicalConditions"
+                  rows={3}
+                  value={formData.medicalConditions}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                  placeholder="List any medical conditions or medications (optional)"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  GPS Location (Recommended)
+                </label>
+                <Button 
+                  type="button"
+                  variant={formData.latitude ? "primary" : "outline"}
+                  onClick={captureLocation}
+                  className="w-full"
+                  disabled={locationLoading}
+                >
+                  <MapPin className="h-5 w-5 mr-2" />
+                  {locationLoading ? 'Getting Location...' : formData.latitude ? 'Location Captured' : 'Capture My Location'}
+                </Button>
+                {formData.latitude && formData.longitude && (
+                  <p className="text-sm text-green-600 mt-2">
+                    Location: {formData.latitude.toFixed(4)}, {formData.longitude.toFixed(4)}
+                  </p>
+                )}
+                {locationError && (
+                  <p className="text-sm text-red-600 mt-2">{locationError}</p>
+                )}
+                <p className="text-xs text-gray-500 mt-1">
+                  Enable location for distance-based blood request matching
+                </p>
               </div>
             </div>
 
@@ -611,6 +686,7 @@ const DonorRegistration: React.FC = () => {
             </div>
           </form>
         </Card>
+        </div>
       </div>
     </div>
   );

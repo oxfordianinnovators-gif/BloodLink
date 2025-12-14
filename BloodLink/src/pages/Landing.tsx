@@ -20,7 +20,7 @@ const Landing: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                Connecting Rural Nepal
+                Connecting Rural         Nepal
                 <span className="block text-red-200">One Drop at a Time</span>
               </h1>
               <p className="text-xl lg:text-2xl mb-8 text-red-100">
@@ -29,9 +29,9 @@ const Landing: React.FC = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/active-requests">
-                  <Button size="lg" className="w-full sm:w-auto">
-                    <Droplet className="h-6 w-6 mr-2" />
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto bg-white/10 border-white text-white">
                     Donate Now
+                    <Droplet className="h-6 w-6 ml-2" />
                   </Button>
                 </Link>
                 <Link to="/request">
@@ -46,7 +46,11 @@ const Landing: React.FC = () => {
             <div className="hidden lg:block">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border-2 border-white/20">
                 <div className="text-center">
-                  <Droplet className="h-24 w-24 text-red-300 mx-auto mb-4" fill="currentColor" />
+                  <img 
+                    src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?w=400&h=400&fit=crop" 
+                    alt="Blood Donation in Rural Communities" 
+                    className="h-64 w-full object-cover rounded-xl mx-auto mb-4"
+                  />
                   <h3 className="text-2xl font-bold mb-2">Serving Rural Communities</h3>
                   <p className="text-red-100">
                     Reaching remote villages and ensuring no one is left behind in times of need

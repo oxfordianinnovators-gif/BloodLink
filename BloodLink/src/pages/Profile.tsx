@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { User, Phone, Mail, MapPin, Droplet, Calendar, QrCode as QrCodeIcon, Edit2, Check, X, AlertCircle, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { User, Phone, Mail, MapPin, Droplet, Calendar, QrCode as QrCodeIcon, Edit2, Check, X, LogOut } from 'lucide-react';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
 import { QRCodeCanvas } from 'qrcode.react';
@@ -17,9 +17,40 @@ const Profile: React.FC = () => {
     return null;
   };
 
+  const captureLocation = () => {
+    setLocationLoading(true);
+    setLocationError('');
+    
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation not supported by your browser');
+      setLocationLoading(false);
+      return;
+    }
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setEditedData({
+          ...editedData,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
+        setLocationLoading(false);
+        console.log('📍 Location updated:', position.coords.latitude, position.coords.longitude);
+      },
+      (error) => {
+        setLocationError('Unable to retrieve location. Please enable location services.');
+        setLocationLoading(false);
+        console.error('Geolocation error:', error);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  };
+
   const [userData, setUserData] = useState(loadUserData());
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState(userData);
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [locationError, setLocationError] = useState('');
 
   // Redirect to registration if no user data
   useEffect(() => {
@@ -218,20 +249,40 @@ const Profile: React.FC = () => {
                   )}
                 </div>
 
-                <div className="md:col-span-2">
+                <div>
                   <label className="flex items-center text-gray-600 mb-2">
                     <MapPin className="w-4 h-4 mr-2" />
-                    Address
+                    GPS Location
                   </label>
                   {isEditing ? (
-                    <input
-                      type="text"
-                      value={editedData.address}
-                      onChange={(e) => handleInputChange('address', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                    />
+                    <div className="space-y-2">
+                      <Button 
+                        type="button"
+                        variant={editedData.latitude ? "primary" : "outline"}
+                        onClick={captureLocation}
+                        disabled={locationLoading}
+                      >
+                        <MapPin className="w-4 h-4 mr-2" />
+                        {locationLoading ? 'Getting Location...' : editedData.latitude ? 'Update Location' : 'Capture Location'}
+                      </Button>
+                      {editedData.latitude && editedData.longitude && (
+                        <p className="text-sm text-green-600">
+                          {editedData.latitude.toFixed(4)}, {editedData.longitude.toFixed(4)}
+                        </p>
+                      )}
+                      {locationError && (
+                        <p className="text-sm text-red-600">{locationError}</p>
+                      )}
+                      <p className="text-xs text-gray-500">
+                        GPS location enables distance-based blood request matching
+                      </p>
+                    </div>
                   ) : (
-                    <p className="text-gray-800 font-medium">{userData.address}</p>
+                    <p className="text-gray-800 font-medium">
+                      {userData.latitude && userData.longitude
+                        ? `${userData.latitude.toFixed(4)}, ${userData.longitude.toFixed(4)}`
+                        : 'Not set - Enable location for better matching'}
+                    </p>
                   )}
                 </div>
 
@@ -249,6 +300,23 @@ const Profile: React.FC = () => {
                     />
                   ) : (
                     <p className="text-gray-800 font-medium">{userData.dateOfBirth}</p>
+                  )}
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="flex items-center text-gray-600 mb-2">
+                    <MapPin className="w-4 h-4 mr-2" />
+                    Address
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editedData.address}
+                      onChange={(e) => handleInputChange('address', e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    />
+                  ) : (
+                    <p className="text-gray-800 font-medium">{userData.address}</p>
                   )}
                 </div>
               </div>
@@ -335,7 +403,7 @@ const Profile: React.FC = () => {
 
                 <Button 
                   variant="outline" 
-                  size="small" 
+                  size="sm" 
                   onClick={downloadQRCode}
                   className="mt-4 w-full"
                 >
