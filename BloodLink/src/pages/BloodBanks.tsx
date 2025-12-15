@@ -9,14 +9,34 @@ const BloodBanks: React.FC = () => {
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="bg-red-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Droplet className="h-10 w-10 text-white" fill="currentColor" />
+        <div className="mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">Blood Banks Directory</h1>
+              <p className="text-2xl text-gray-600">
+                Find blood banks near you with real-time availability and emergency contact information.
+              </p>
+            </div>
+            
+            <div className="hidden lg:block">
+              <div className="relative bg-gradient-to-br from-red-100 to-red-50 p-8 shadow-2xl" 
+                   style={{
+                     borderRadius: '40% 60% 60% 40% / 70% 50% 50% 70%',
+                     border: '6px solid #dc2626',
+                     transform: 'rotate(3deg)'
+                   }}>
+                <img 
+                  src="/blood-bags.jpeg" 
+                  alt="Blood Bags - Different Blood Types" 
+                  className="h-80 w-full object-cover"
+                  style={{
+                    borderRadius: '35% 65% 55% 45% / 65% 45% 55% 35%',
+                    transform: 'rotate(-3deg)'
+                  }}
+                />
+              </div>
+            </div>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Blood Banks Directory</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Find blood banks near you with real-time availability and emergency contact information.
-          </p>
         </div>
 
         {/* Emergency Notice */}

@@ -228,6 +228,9 @@ const DonorRegistration: React.FC = () => {
           fps: 10,
           qrbox: { width: 250, height: 250 },
           aspectRatio: 1.0,
+          rememberLastUsedCamera: true,
+          supportedScanTypes: [0, 1], // Both camera and file
+          showTorchButtonIfSupported: true,
         },
         false
       );
@@ -322,6 +325,14 @@ const DonorRegistration: React.FC = () => {
                 </div>
               ) : (
                 <>
+                  <style>{`
+                    #qr-reader video {
+                      transform: scaleX(-1) !important;
+                      -webkit-transform: scaleX(-1) !important;
+                      -moz-transform: scaleX(-1) !important;
+                    }
+                  `}</style>
+                  
                   {/* QR Scanner Container */}
                   <div id="qr-reader" className="rounded-lg overflow-hidden mb-4"></div>
                   

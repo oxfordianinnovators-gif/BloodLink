@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Droplet, Users, MapPin, Calendar, Phone, ArrowRight, User } from 'lucide-react';
+import { Droplet, Users, MapPin, Calendar, Phone, User } from 'lucide-react';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
 
@@ -15,7 +15,7 @@ const Landing: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-red-600 to-red-800 text-white py-20">
+      <section className="bg-gradient-to-br from-red-400 to-red-500 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -31,13 +31,11 @@ const Landing: React.FC = () => {
                 <Link to="/active-requests">
                   <Button variant="outline" size="lg" className="w-full sm:w-auto bg-white/10 border-white text-white">
                     Donate Now
-                    <Droplet className="h-6 w-6 ml-2" />
                   </Button>
                 </Link>
                 <Link to="/request">
                   <Button variant="outline" size="lg" className="w-full sm:w-auto bg-white/10 border-white text-white ">
                     Request Blood
-                    <ArrowRight className="h-6 w-6 ml-2" />
                   </Button>
                 </Link>
               </div>
@@ -88,9 +86,9 @@ const Landing: React.FC = () => {
       <section className="py-20 bg-gradient-to-br from-red-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center space-x-3 bg-red-600 text-white px-6 py-3 rounded-full mb-6">
-              <Droplet className="h-6 w-6" fill="currentColor" />
-              <span className="font-bold text-lg">Red Cross Rural Campaign</span>
+            <div className="inline-flex items-center space-x-3 bg-red-600 text-white px-8 py-4 rounded-full mb-6">
+             
+              <span className="font-bold text-xl">Red Cross Rural Campaign</span>
             </div>
             <h2 className="text-4xl font-bold text-gray-900 mb-6">Know Your Blood, Save Lives</h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
@@ -151,18 +149,14 @@ const Landing: React.FC = () => {
                   If you received your card from our rural campaign, simply scan your QR code on the registration page to instantly join BloodLink with all your details pre-filled!
                 </p>
                 <div className="flex items-center space-x-2 text-red-600">
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v3h-3v-3zm0 5h3v3h-3v-3zm-5-5h3v3h-3v-3z"/>
-                  </svg>
+                  
                   <span className="font-semibold">Quick QR Code Sign In Available</span>
                 </div>
               </div>
               <div className="flex-shrink-0">
                 <Link to="/register">
                   <Button size="lg" className="whitespace-nowrap">
-                    <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v3h-3v-3zm0 5h3v3h-3v-3zm-5-5h3v3h-3v-3z"/>
-                    </svg>
+                    
                     Scan QR Code Now
                   </Button>
                 </Link>
@@ -251,7 +245,7 @@ const Landing: React.FC = () => {
           </p>
           <Link to="/register">
             <Button size="lg" className="text-xl px-12 py-4">
-              <Droplet className="h-6 w-6 mr-2" />
+             
               Start Saving Lives Today
             </Button>
           </Link>

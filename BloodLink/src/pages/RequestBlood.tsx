@@ -391,7 +391,7 @@ const RequestBlood: React.FC = () => {
                       value={formData.contactPhone}
                       onChange={handleChange}
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
-                      placeholder="+1 (555) 123-4567"
+                      placeholder="+977 98XXXXXXXX"
                     />
                   </div>
                 </div>
