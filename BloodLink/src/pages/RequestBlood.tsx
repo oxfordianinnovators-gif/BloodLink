@@ -26,6 +26,7 @@ const RequestBlood: React.FC = () => {
   const [searchRadius, setSearchRadius] = useState(50);
   const [locationLoading, setLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState('');
+  const [locationValidationError, setLocationValidationError] = useState('');
 
   const urgencyLevels = [
     { value: 'low', label: 'Low - Within 7 days', color: 'text-green-600' },
@@ -52,6 +53,7 @@ const RequestBlood: React.FC = () => {
           longitude: position.coords.longitude
         });
         setLocationLoading(false);
+        setLocationValidationError('');
         console.log('Request location captured:', position.coords.latitude, position.coords.longitude);
       },
       (error) => {
@@ -65,6 +67,13 @@ const RequestBlood: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Require either a city or captured GPS coordinates
+    if ((!formData.city || formData.city.trim() === '') && !(formData.latitude && formData.longitude)) {
+      setLocationValidationError('Please provide either a City or capture GPS location.');
+      return;
+    }
+
+    setLocationValidationError('');
     setIsSubmitting(true);
     
     // Simulate API call delay
@@ -139,6 +148,9 @@ const RequestBlood: React.FC = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
+    if (e.target.name === 'city' && e.target.value) {
+      setLocationValidationError('');
+    }
   };
 
   if (submitted) {
@@ -151,7 +163,11 @@ const RequestBlood: React.FC = () => {
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">Emergency Alert Sent Successfully!</h1>
             <p className="text-lg text-gray-600 mb-8 text-center">
-              Your blood request has been sent to compatible donors and blood banks in <span className="font-bold text-red-600">{formData.city}</span> only.
+              Your blood request has been sent to compatible donors and blood banks {formData.city ? (
+                <span className="font-bold text-red-600">in {formData.city}</span>
+              ) : (
+                <span className="font-bold text-red-600">in your area</span>
+              )} only.
             </p>
             
             {/* Location Filter Notice */}
@@ -161,7 +177,11 @@ const RequestBlood: React.FC = () => {
                 <div>
                   <h3 className="font-bold text-purple-900 mb-1">Location-Based Filtering Active</h3>
                   <p className="text-sm text-purple-800">
-                    Our system only contacted people and blood banks in <strong>{formData.city}</strong> to ensure quick response time and location accuracy. No one outside your city was notified.
+                    Our system only contacted people and blood banks {formData.city ? (
+                      <><strong>{formData.city}</strong></>
+                    ) : (
+                      'near the captured GPS location'
+                    )} to ensure quick response time and location accuracy.
                   </p>
                 </div>
               </div>
@@ -417,12 +437,11 @@ const RequestBlood: React.FC = () => {
 
                 <div>
                   <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
-                    City *
+                    City (optional if GPS provided)
                   </label>
                   <select
                     id="city"
                     name="city"
-                    required
                     value={formData.city}
                     onChange={handleChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
@@ -436,7 +455,7 @@ const RequestBlood: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    GPS Location (Recommended for Better Matching)
+                    GPS Location (Recommended; optional if City provided)
                   </label>
                   <Button 
                     type="button"
@@ -455,6 +474,9 @@ const RequestBlood: React.FC = () => {
                   )}
                   {locationError && (
                     <p className="text-sm text-red-600 mt-2">{locationError}</p>
+                  )}
+                  {locationValidationError && (
+                    <p className="text-sm text-red-600 mt-2">{locationValidationError}</p>
                   )}
                   {!formData.latitude && (
                     <p className="text-xs text-gray-500 mt-1">

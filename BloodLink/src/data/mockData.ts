@@ -49,17 +49,17 @@ export const mockDonors: Donor[] = [
   { id: '39', name: 'Nirmala Shrestha', bloodGroup: 'O-', phone: '+977-9801000074', email: 'nirmala.shrestha@example.com', city: 'Humla', latitude: 29.9689, longitude: 81.8211, availability: true, lastDonation: '2024-04-08' },
   { id: '40', name: 'Omisha Bhandari', bloodGroup: 'O-', phone: '+977-9801000075', email: 'omisha.bhandari@example.com', city: 'Bajura', latitude: 29.5451, longitude: 81.6721, availability: true, lastDonation: '2024-02-04' },
 
-  // Dharan area donors (near 26.6882, 87.2718)
-  { id: '41', name: 'Suman Limbu', bloodGroup: 'A+', phone: '+977-9801000081', email: 'suman.limbu@example.com', city: 'Dharan', latitude: 26.6882, longitude: 87.2718, availability: true, lastDonation: '2024-01-15' },
-  { id: '42', name: 'Pratima Subba', bloodGroup: 'B+', phone: '+977-9801000082', email: 'pratima.subba@example.com', city: 'Dharan', latitude: 26.6895, longitude: 87.2732, availability: true, lastDonation: '2024-02-20' },
-  { id: '43', name: 'Rakesh Gurung', bloodGroup: 'O+', phone: '+977-9801000083', email: 'rakesh.gurung@example.com', city: 'Dharan', latitude: 26.6868, longitude: 87.2705, availability: true, lastDonation: '2024-03-10' },
-  { id: '44', name: 'Anjali Rai', bloodGroup: 'AB+', phone: '+977-9801000084', email: 'anjali.rai@example.com', city: 'Dharan', latitude: 26.6901, longitude: 87.2745, availability: false, lastDonation: '2024-01-08' },
-  { id: '45', name: 'Bikash Tamang', bloodGroup: 'A-', phone: '+977-9801000085', email: 'bikash.tamang@example.com', city: 'Dharan', latitude: 26.6875, longitude: 87.2693, availability: true, lastDonation: '2024-02-25' },
-  { id: '46', name: 'Sunita Magar', bloodGroup: 'B-', phone: '+977-9801000086', email: 'sunita.magar@example.com', city: 'Dharan', latitude: 26.6890, longitude: 87.2728, availability: true, lastDonation: '2024-03-15' },
-  { id: '47', name: 'Dipak Sherpa', bloodGroup: 'O-', phone: '+977-9801000087', email: 'dipak.sherpa@example.com', city: 'Dharan', latitude: 26.6870, longitude: 87.2710, availability: true, lastDonation: '2024-01-30' },
-  { id: '48', name: 'Krishna Thapa', bloodGroup: 'AB-', phone: '+977-9801000088', email: 'krishna.thapa@example.com', city: 'Dharan', latitude: 26.6888, longitude: 87.2722, availability: true, lastDonation: '2024-02-12' },
-  { id: '49', name: 'Maya Poudel', bloodGroup: 'A+', phone: '+977-9801000089', email: 'maya.poudel@example.com', city: 'Dharan', latitude: 26.6897, longitude: 87.2738, availability: true, lastDonation: '2024-03-05' },
-  { id: '50', name: 'Ramesh Karki', bloodGroup: 'O+', phone: '+977-9801000090', email: 'ramesh.karki@example.com', city: 'Dharan', latitude: 26.6879, longitude: 87.2715, availability: true, lastDonation: '2024-01-20' }
+  // Chitwan area donors (near 26.6882, 87.2718)
+  { id: '41', name: 'Suman Limbu', bloodGroup: 'A+', phone: '+977-9801000081', email: 'suman.limbu@example.com', city: 'Chitwan', latitude:  27.5999, longitude: 82.8518, availability: true, lastDonation: '2024-01-15' },
+  { id: '42', name: 'Pratima Subba', bloodGroup: 'B+', phone: '+977-9801000082', email: 'pratima.subba@example.com', city: 'Chitwan', latitude: 26.6895, longitude: 87.2732, availability: true, lastDonation: '2024-02-20' },
+  { id: '43', name: 'Rakesh Gurung', bloodGroup: 'O+', phone: '+977-9801000083', email: 'rakesh.gurung@example.com', city: 'Chitwan', latitude: 26.6868, longitude: 87.2705, availability: true, lastDonation: '2024-03-10' },
+  { id: '44', name: 'Anjali Rai', bloodGroup: 'AB+', phone: '+977-9801000084', email: 'anjali.rai@example.com', city: 'Chitwan', latitude: 26.6901, longitude: 87.2745, availability: false, lastDonation: '2024-01-08' },
+  { id: '45', name: 'Bikash Tamang', bloodGroup: 'A-', phone: '+977-9801000085', email: 'bikash.tamang@example.com', city: 'Chitwan', latitude: 26.6875, longitude: 87.2693, availability: true, lastDonation: '2024-02-25' },
+  { id: '46', name: 'Sunita Magar', bloodGroup: 'B-', phone: '+977-9801000086', email: 'sunita.magar@example.com', city: 'Chitwan', latitude: 26.6890, longitude: 87.2728, availability: true, lastDonation: '2024-03-15' },
+  { id: '47', name: 'Dipak Sherpa', bloodGroup: 'O-', phone: '+977-9801000087', email: 'dipak.sherpa@example.com', city: 'Chitwan', latitude: 26.6870, longitude: 87.2710, availability: true, lastDonation: '2024-01-30' },
+  { id: '48', name: 'Krishna Thapa', bloodGroup: 'AB-', phone: '+977-9801000088', email: 'krishna.thapa@example.com', city: 'Chitwan', latitude: 26.6888, longitude: 87.2722, availability: true, lastDonation: '2024-02-12' },
+  { id: '49', name: 'Maya Poudel', bloodGroup: 'A+', phone: '+977-9801000089', email: 'maya.poudel@example.com', city: 'Chitwan', latitude: 26.6897, longitude: 87.2738, availability: true, lastDonation: '2024-03-05' },
+  { id: '50', name: 'Ramesh Karki', bloodGroup: 'O+', phone: '+977-9801000090', email: 'ramesh.karki@example.com', city: 'Chitwan', latitude: 26.6879, longitude: 87.2715, availability: true, lastDonation: '2024-01-20' }
 ];
 
 export const mockBloodBanks: BloodBank[] = [
@@ -126,8 +126,8 @@ export const mockBloodBanks: BloodBank[] = [
   {
     id: '6',
     name: 'B.P. Koirala Institute of Health Sciences Blood Bank',
-    address: 'BPKIHS Campus, Dharan',
-    city: 'Dharan',
+    address: 'BPKIHS Campus, Chitwan',
+    city: 'Chitwan',
     latitude: 26.6882,
     longitude: 87.2718,
     phone: '+977-25-525555',
@@ -137,4 +137,4 @@ export const mockBloodBanks: BloodBank[] = [
   }
 ];
 export const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
-export const cities = ['Jumla', 'Mugu', 'Dolpa', 'Humla', 'Bajura', 'Dharan'];
+export const cities = ['Jumla', 'Mugu', 'Dolpa', 'Humla', 'Bajura', 'Chitwan'];
