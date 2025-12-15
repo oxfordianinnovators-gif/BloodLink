@@ -3,7 +3,7 @@ import { Search, MapPin, Phone, Mail, Droplet, Filter } from 'lucide-react';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
 import { mockDonors, bloodGroups, cities } from '../data/mockData';
-import { Donor } from '../types';
+import type { Donor } from '../types';
 
 const DonorSearch: React.FC = () => {
   const [filters, setFilters] = useState({
@@ -55,18 +55,38 @@ const DonorSearch: React.FC = () => {
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="bg-red-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Search className="h-10 w-10 text-white" />
+        <div className="mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-4">Find Blood Donors</h1>
+              <p className="text-2xl text-gray-600 max-w-2xl">
+                Search and connect with verified blood donors in your area. Get help when you need it most.
+              </p>
+            </div>
+
+            <div className="hidden lg:block">
+              <div className="relative bg-gradient-to-br from-red-100 to-red-50 p-8 shadow-2xl"
+                   style={{
+                     borderRadius: '40% 60% 60% 40% / 70% 50% 50% 70%',
+                     border: '6px solid #dc2626',
+                     transform: 'rotate(3deg)'
+                   }}>
+                <img
+                  src="/donation.jpg"
+                  alt="Community donors"
+                  className="h-80 w-full object-cover"
+                  style={{
+                    borderRadius: '35% 65% 55% 45% / 65% 45% 55% 35%',
+                    transform: 'rotate(-3deg)'
+                  }}
+                />
+              </div>
+            </div>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Find Blood Donors</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Search and connect with verified blood donors in your area. Get help when you need it most.
-          </p>
         </div>
 
         {/* Filters */}
-        <Card className="mb-8">
+        <Card className="mb-8 rounded-lg border-l-4 border-red-600">
           <div className="flex items-center space-x-2 mb-6">
             <Filter className="h-6 w-6 text-red-600" />
             <h3 className="text-lg font-semibold text-gray-900">Filter Donors</h3>

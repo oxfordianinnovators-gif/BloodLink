@@ -134,25 +134,34 @@ const Profile: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-white py-12 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-red-600 mb-2">My Profile</h1>
-          <p className="text-gray-600">Manage your donor information and availability</p>
-        </div>
+
 
         <>
-          <div className="flex justify-end mb-4">
-            <Button variant="outline" onClick={handleLogout}>
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-6">
+              <div className="w-28 h-28 rounded-full border-4 border-red-600 flex items-center justify-center text-red-600 bg-white">
+                <User className="w-12 h-12" />
+              </div>
+              <div>
+                <p className="text-4xl lg:text-5xl font-extrabold text-red-600 leading-tight mb-0">{userData.name}</p>
+              </div>
+            </div>
+
+            <div>
+              <Button variant="outline" onClick={handleLogout}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
           {/* Left Column - Profile Info */}
           <div className="md:col-span-2 space-y-6">
+
             {/* Basic Info Card */}
-            <Card className="p-6">
+            <Card className="p-6 text-lg">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">Personal Information</h2>
+                <h2 className="text-3xl font-bold text-gray-800">Personal Information</h2>
                 {!isEditing ? (
                   <Button variant="outline" onClick={handleEdit}>
                     <Edit2 className="w-5 h-5 mr-2" />

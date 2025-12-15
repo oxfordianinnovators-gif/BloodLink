@@ -22,7 +22,7 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+          <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity -ml-4">
             <div className="bg-red-600 p-2 rounded-full">
               <Droplet className="h-6 w-6 text-white" fill="currentColor" />
             </div>
