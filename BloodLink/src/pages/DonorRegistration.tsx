@@ -89,7 +89,7 @@ const DonorRegistration: React.FC = () => {
     localStorage.setItem('donorProfile', JSON.stringify(donorData));
     console.log('Donor data saved to profile:', donorData);
     if (formData.latitude && formData.longitude) {
-      console.log(`📍 Donor location: ${formData.latitude.toFixed(4)}, ${formData.longitude.toFixed(4)}`);
+      console.log(`Donor location: ${formData.latitude.toFixed(4)}, ${formData.longitude.toFixed(4)}`);
     }
     
     // Simulate API call

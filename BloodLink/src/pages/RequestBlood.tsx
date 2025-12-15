@@ -52,7 +52,7 @@ const RequestBlood: React.FC = () => {
           longitude: position.coords.longitude
         });
         setLocationLoading(false);
-        console.log('📍 Request location captured:', position.coords.latitude, position.coords.longitude);
+        console.log('Request location captured:', position.coords.latitude, position.coords.longitude);
       },
       (error) => {
         setLocationError('Unable to retrieve location. Please enable location services.');
@@ -222,7 +222,7 @@ const RequestBlood: React.FC = () => {
             
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
               <p className="text-red-800 font-medium">
-                 For life-threatening emergencies, call 911 or your local emergency number immediately.
+                 For life-threatening emergencies, call 102 or your local emergency number immediately.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

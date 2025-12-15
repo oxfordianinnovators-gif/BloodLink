@@ -49,29 +49,29 @@ const bloodCompatibility: { [key: string]: string[] } = {
 export const sendEmergencyNotifications = (request: BloodRequest, maxDistance: number = 50) => {
   const useGeoLocation = !!(request.latitude && request.longitude);
   
-  console.log('\n🚨 ========================== EMERGENCY BLOOD REQUEST ==========================');
-  console.log('📋 REQUEST DETAILS:');
+  console.log('\n=== EMERGENCY BLOOD REQUEST ===');
+  console.log('REQUEST DETAILS:');
   console.log(`   Patient: ${request.patientName}`);
   console.log(`   Blood Group Needed: ${request.bloodGroup}`);
   console.log(`   Units Required: ${request.unitsNeeded}`);
   console.log(`   Location: ${request.hospital}, ${request.city}`);
   if (useGeoLocation) {
-    console.log(`   📍 GPS Coordinates: ${request.latitude?.toFixed(4)}, ${request.longitude?.toFixed(4)}`);
-    console.log(`   🎯 Search Radius: ${maxDistance} km`);
+    console.log(`   GPS Coordinates: ${request.latitude?.toFixed(4)}, ${request.longitude?.toFixed(4)}`);
+    console.log(`   Search Radius: ${maxDistance} km`);
   }
   console.log(`   Urgency Level: ${request.urgency.toUpperCase()}`);
   console.log(`   Contact: ${request.contactPhone}`);
   console.log('================================================================================\n');
 
-  console.log('🔍 SEARCHING FOR COMPATIBLE DONORS...');
+  console.log('SEARCHING FOR COMPATIBLE DONORS...');
   if (useGeoLocation) {
-    console.log(`   📍 Search Method: DISTANCE-BASED (within ${maxDistance} km)`);
-    console.log(`   📊 Total Donors in Database: ${mockDonors.length}`);
+    console.log(`   Search Method: DISTANCE-BASED (within ${maxDistance} km)`);
+    console.log(`   Total Donors in Database: ${mockDonors.length}`);
   } else {
-    console.log(`   📍 Search Method: CITY-BASED (${request.city} only)`);
-    console.log(`   📊 Total Donors in Database: ${mockDonors.length}`);
+    console.log(`   Search Method: CITY-BASED (${request.city} only)`);
+    console.log(`   Total Donors in Database: ${mockDonors.length}`);
   }
-  console.log(`   🩸 Blood Type Needed: ${request.bloodGroup}`);
+  console.log(`   Blood Type Needed: ${request.bloodGroup}`);
   
   // Find compatible donors with distance calculation
   const compatibleDonorsWithDistance = mockDonors
@@ -117,26 +117,26 @@ export const sendEmergencyNotifications = (request: BloodRequest, maxDistance: n
 
   if (useGeoLocation) {
     const donorsWithLocation = mockDonors.filter(d => d.latitude && d.longitude).length;
-    console.log(`   ✓ Donors with GPS location: ${donorsWithLocation}`);
-    console.log(`   ✓ Donors within ${maxDistance} km: ${compatibleDonorsWithDistance.length}`);
+    console.log(`   Donors with GPS location: ${donorsWithLocation}`);
+    console.log(`   Donors within ${maxDistance} km: ${compatibleDonorsWithDistance.length}`);
   } else {
     const donorsInCity = mockDonors.filter(donor => donor.city === request.city);
-    console.log(`   ✓ Donors in ${request.city}: ${donorsInCity.length}`);
+    console.log(`   Donors in ${request.city}: ${donorsInCity.length}`);
     const availableDonorsInCity = donorsInCity.filter(donor => donor.availability);
-    console.log(`   ✓ Available donors in ${request.city}: ${availableDonorsInCity.length}`);
+    console.log(`   Available donors in ${request.city}: ${availableDonorsInCity.length}`);
   }
 
-  console.log(`   ✓ Compatible donors found: ${compatibleDonorsWithDistance.length}`);
+  console.log(`   Compatible donors found: ${compatibleDonorsWithDistance.length}`);
   console.log('--------------------------------------------------------------------------------\n');
 
   // Find blood banks in the same city or within distance
-  console.log('🏥 SEARCHING FOR BLOOD BANKS...');
+  console.log('SEARCHING FOR BLOOD BANKS...');
   if (useGeoLocation) {
-    console.log(`   📍 Search Method: DISTANCE-BASED (within ${maxDistance} km)`);
+    console.log(`   Search Method: DISTANCE-BASED (within ${maxDistance} km)`);
   } else {
-    console.log(`   📍 Search Method: CITY-BASED (${request.city} only)`);
+    console.log(`   Search Method: CITY-BASED (${request.city} only)`);
   }
-  console.log(`   📊 Total Blood Banks in Database: ${mockBloodBanks.length}`);
+  console.log(`   Total Blood Banks in Database: ${mockBloodBanks.length}`);
   
   const nearbyBloodBanks = mockBloodBanks
     .filter(bank => {
@@ -156,25 +156,25 @@ export const sendEmergencyNotifications = (request: BloodRequest, maxDistance: n
     });
   
   if (useGeoLocation) {
-    console.log(`   ✓ Blood banks within ${maxDistance} km with ${request.bloodGroup}: ${nearbyBloodBanks.length}`);
+    console.log(`   Blood banks within ${maxDistance} km with ${request.bloodGroup}: ${nearbyBloodBanks.length}`);
   } else {
     const banksInCity = mockBloodBanks.filter(bank => bank.city === request.city);
-    console.log(`   ✓ Blood banks in ${request.city}: ${banksInCity.length}`);
-    console.log(`   ✓ Blood banks with ${request.bloodGroup} in ${request.city}: ${nearbyBloodBanks.length}`);
+    console.log(`   Blood banks in ${request.city}: ${banksInCity.length}`);
+    console.log(`   Blood banks with ${request.bloodGroup} in ${request.city}: ${nearbyBloodBanks.length}`);
   }
   console.log('--------------------------------------------------------------------------------\n');
 
   const searchMethod = useGeoLocation ? `within ${maxDistance} km radius` : `in ${request.city}`;
-  console.log(`🎯 SENDING NOTIFICATIONS TO DONORS ${searchMethod.toUpperCase()}:`);
+  console.log(`SENDING NOTIFICATIONS TO DONORS ${searchMethod.toUpperCase()}:`);
   console.log('================================================================================');
   
   if (compatibleDonorsWithDistance.length === 0) {
-    console.log(`   ⚠️  No compatible donors found ${searchMethod}.`);
+    console.log(`   No compatible donors found ${searchMethod}.`);
     if (!useGeoLocation) {
-      console.log('   ℹ️  Only searching within the requested city.');
-      console.log('   💡 Recommendation: Enable location services for distance-based search.\n');
+      console.log('   Only searching within the requested city.');
+      console.log('   Recommendation: Enable location services for distance-based search.\n');
     } else {
-      console.log(`   💡 Recommendation: Expand search radius beyond ${maxDistance} km or contact blood banks.\n`);
+      console.log(`   Recommendation: Expand search radius beyond ${maxDistance} km or contact blood banks.\n`);
     }
   } else {
     compatibleDonorsWithDistance.forEach((donor, index) => {
@@ -185,22 +185,22 @@ export const sendEmergencyNotifications = (request: BloodRequest, maxDistance: n
       console.log(`      Last Donation: ${donor.lastDonation}`);
       console.log(`      Location: ${donor.city}`);
       if (donor.distance !== null) {
-        console.log(`      📍 Distance: ${donor.distance.toFixed(2)} km away`);
+        console.log(`      Distance: ${donor.distance.toFixed(2)} km away`);
       }
       
-      console.log(`      📱 Sending SMS to ${donor.phone}...`);
-      console.log(`      ✉️  Sending Email to ${donor.email}...`);
-      console.log(`      📞 Initiating Auto-Call...`);
-      console.log(`      ✅ Notifications sent successfully!`);
+      console.log(`      Sending SMS to ${donor.phone}...`);
+      console.log(`      Sending Email to ${donor.email}...`);
+      console.log(`      Initiating Auto-Call...`);
+      console.log(`      Notifications sent successfully!`);
     });
   }
 
   console.log('\n================================================================================');
-  console.log(`🏥 CONTACTING BLOOD BANKS ${searchMethod.toUpperCase()}:`);
+  console.log(`CONTACTING BLOOD BANKS ${searchMethod.toUpperCase()}:`);
   console.log('================================================================================');
   
   if (nearbyBloodBanks.length === 0) {
-    console.log(`   ⚠️  No blood banks with ${request.bloodGroup} found ${searchMethod}.\n`);
+    console.log(`   No blood banks with ${request.bloodGroup} found ${searchMethod}.\n`);
   } else {
     nearbyBloodBanks.forEach((bank, index) => {
       console.log(`\n   ${index + 1}. ${bank.name}`);
@@ -211,22 +211,22 @@ export const sendEmergencyNotifications = (request: BloodRequest, maxDistance: n
       console.log(`      Available Blood Groups: ${bank.bloodGroups.join(', ')}`);
       console.log(`      Hours: ${bank.hours}`);
       
-      console.log(`      📞 Calling emergency line ${bank.emergencyPhone}...`);
-      console.log(`      ✅ Blood bank notified!`);
+      console.log(`      Calling emergency line ${bank.emergencyPhone}...`);
+      console.log(`      Blood bank notified!`);
     });
   }
 
   console.log('\n================================================================================');
-  console.log('📊 NOTIFICATION SUMMARY:');
-  console.log(`   🎯 Search Method: ${useGeoLocation ? `DISTANCE-BASED (${maxDistance} km radius)` : `CITY-BASED (${request.city})`}`);
-  console.log(`   ✅ ${compatibleDonorsWithDistance.length} donors notified via SMS, Email & Phone Call`);
-  console.log(`   ✅ ${nearbyBloodBanks.length} blood banks contacted`);
+  console.log('NOTIFICATION SUMMARY:');
+  console.log(`   Search Method: ${useGeoLocation ? `DISTANCE-BASED (${maxDistance} km radius)` : `CITY-BASED (${request.city})`}`);
+  console.log(`   ${compatibleDonorsWithDistance.length} donors notified via SMS, Email & Phone Call`);
+  console.log(`   ${nearbyBloodBanks.length} blood banks contacted`);
   if (compatibleDonorsWithDistance.length > 0 && compatibleDonorsWithDistance[0].distance !== null) {
-    console.log(`   📍 Nearest donor: ${compatibleDonorsWithDistance[0].distance.toFixed(2)} km away`);
+    console.log(`   Nearest donor: ${compatibleDonorsWithDistance[0].distance.toFixed(2)} km away`);
   }
-  console.log(`   ⏱️  Response expected within 5-10 minutes`);
+  console.log(`   Response expected within 5-10 minutes`);
   if (!useGeoLocation) {
-    console.log('   💡 Enable location services for better distance-based matching');
+    console.log('   Enable location services for better distance-based matching');
   }
   console.log('================================================================================\n');
 

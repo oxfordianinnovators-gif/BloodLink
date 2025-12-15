@@ -35,7 +35,7 @@ const Profile: React.FC = () => {
           longitude: position.coords.longitude
         });
         setLocationLoading(false);
-        console.log('📍 Location updated:', position.coords.latitude, position.coords.longitude);
+        console.log('Location updated:', position.coords.latitude, position.coords.longitude);
       },
       (error) => {
         setLocationError('Unable to retrieve location. Please enable location services.');
@@ -377,7 +377,7 @@ const Profile: React.FC = () => {
 
                 <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
                   <p className="text-xs text-yellow-700">
-                    💡 Change your status when you're temporarily unable to donate
+                    Change your status when you're temporarily unable to donate
                   </p>
                 </div>
               </div>
